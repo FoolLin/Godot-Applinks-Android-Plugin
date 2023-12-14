@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation("org.godotengine:godot:4.2.0.stable")
+    implementation("androidx.fragment:fragment:1.6.2")
 }
 
 // BUILD TASKS DEFINITION

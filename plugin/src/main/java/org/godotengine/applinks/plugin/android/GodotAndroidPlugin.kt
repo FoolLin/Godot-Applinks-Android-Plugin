@@ -6,21 +6,16 @@ import android.widget.Toast
 import org.godotengine.godot.Godot
 import org.godotengine.godot.plugin.GodotPlugin
 import org.godotengine.godot.plugin.UsedByGodot
+import org.godotengine.godot.GodotFragment
 
 class GodotAndroidPlugin(godot: Godot): GodotPlugin(godot) {
 
     override fun getPluginName() = BuildConfig.GODOT_PLUGIN_NAME
 
-    /**
-     * Example showing how to declare a method that's used by Godot.
-     *
-     * Shows a 'Hello World' toast.
-     */
     @UsedByGodot
-    private fun helloWorld() {
-        runOnUiThread {
-            Toast.makeText(activity, "Hello World", Toast.LENGTH_LONG).show()
-            Log.v(pluginName, "Hello World")
-        }
+    fun getData(): String? {
+        val url = GodotFragment.getCurrentIntent()?.dataString
+        GodotFragment.getCurrentIntent().data = null
+        return url
     }
 }
