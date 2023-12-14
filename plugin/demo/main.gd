@@ -1,10 +1,12 @@
 extends Node2D
 
 # TODO: Update to match your plugin's name
-var _plugin_name = "GodotAndroidPluginTemplate"
+var _plugin_name = "applinks"
 var _android_plugin
 
 func _ready():
+	print("Printing working")
+	print(Engine.has_singleton(_plugin_name))
 	if Engine.has_singleton(_plugin_name):
 		_android_plugin = Engine.get_singleton(_plugin_name)
 	else:
