@@ -10,10 +10,24 @@ config_version=5
 
 [application]
 
-config/name="Android Plugin Demo"
+config/name="Applinks Example"
 run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Applinks="*res://addons/applinks/applinks.gd"
+
+[display]
+
+window/size/viewport_width=1080
+window/size/viewport_height=1080
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=1
 
 [editor_plugins]
 

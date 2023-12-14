@@ -2,18 +2,66 @@
 
 [ext_resource type="Script" path="res://main.gd" id="1_j0gfq"]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_j0gfq")
 
-[node name="Button" type="Button" parent="."]
-anchors_preset = 14
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
 anchor_top = 0.5
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 40.0
-offset_top = 250.0
-offset_right = 320.0
-offset_bottom = 312.0
-text = "Hello World"
+offset_left = -350.0
+offset_top = -263.0
+offset_right = 350.0
+offset_bottom = -142.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 43
+text = "Open halgatewood.com website for applinks testing"
+horizontal_alignment = 1
+autowrap_mode = 3
 
-[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[node name="OpenUrl" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -396.0
+offset_top = -85.0
+offset_right = 414.0
+offset_bottom = 116.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 43
+text = "url"
+
+[node name="IntentData" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = 120.0
+offset_right = 350.0
+offset_bottom = 370.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 35
+text = "Received intent data will show here..."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[connection signal="pressed" from="OpenUrl" to="." method="_on_open_url_pressed"]
