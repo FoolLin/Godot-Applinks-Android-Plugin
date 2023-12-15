@@ -3,27 +3,27 @@ Applinks plugin for Godot 4.2+
 ____________________________________
 
 
-Android plugin for Godot 4.2+
-for getting intent data for App Links.
+Godot Android Plugin (4.2+) for getting intent data for App Links 
 
 See demo project [`plugin/demo/`](plugin/demo/) (Godot 4.2.0).
 
 **_NOTE:_** Starting in Godot 4.2, Android plugins built on the v1 architecture are now deprecated. Instead, Godot 4.2 introduces a new Version 2 (v2) architecture for Android plugins.
 
-More information about v2 architecture: [official documentation] (https://docs.godotengine.org/en/stable/tutorials/platform/android/android_plugin.html "documentation")
+More information about v2 architecture: [official documentation](https://docs.godotengine.org/en/stable/tutorials/platform/android/android_plugin.html "documentation")
 
 Installation
 ============
 
-1. If exists, unzip the precompiled release zip in the release folder to your android plugin folder:
-*release/godotgetimageplugin_for_godot_[your Godot version].zip* to *[your godot project]/addons/*
-
-2. Activate plugin in Godot by enable Navigate to `Project` -> `Project Settings...` -> `Plugins`, and ensure the plugin "GodotGetImage" is enabled.
+1. Grab and extract the latest applinks.zip from the [releases tab](https://github.com/FoolLin/Godot-Applinks-Android-Plugin/releases) into `res://addons/`
+   
+2. Activate plugin in Godot by navigate to `Project` -> `Project Settings...` -> `Plugins`, and ensure the plugin "Applinks" is enabled.
+   
+3. In your Anndroid export settings, make sure `Use Gradle Build` is enabled
 
 Build plugin .aar file
 ----------------------
 
-If there is no GodotGetImage release for your Godot version, you need to generate new plugin .aar file.  
+If there is no plugin release that compatible with your Godot version, you could try generate new plugin .aar file.  
 
 1. Set correct Godot version by edit the gradle file [`plugin/build.gradle.kts`](plugin/build.gradle.kts):
 
@@ -46,93 +46,33 @@ dependencies {
 		./gradlew assemble
 	
 3. On successful completion of the build, the output files can be found in
-  [`plugin/demo/addons/GodotGetImage`](plugin/demo/addons/GodotGetImage)
+  [`plugin/demo/addons/applinks`](plugin/demo/addons/applinks)
 
 # Plugin API
 
-It is preferable to set the image size to the maximum desired size before any image requests. This minimize the risk of getting "out of memory" when loading image with unknown sizes.
-
-~~When loading image buffer into your godot image, don't forget ***yield(get_tree(), "idle_frame")***. Otherwise you would get a black image.~~
-
-**_NOTE:_** "idle_frame" (or "process_frame" as it was called in Godot 4) is NOT necessary in Godot 4.x
-
-Permissions
------------
-
-The plugin should handle all permissions that is neede. If any problem set these permission in Godot editor -> Project -> Export window:
-
-*Read External Storage*
-
-*Read Media Images*
-
-**_NOTE:_** As of Godot 4.2 this permission does not exists in the editor.
-
-*Camera*
+In Android 12 Google has changed the way that web intents get resolved. If you are targeting Android 12 or above you need to implement specific features. 
+Read more about it [here](https://developer.android.com/about/versions/12/behavior-changes-all#web-intent-resolution).
 	
 Methods
 -------
 
-***getGalleryImage()***  
-Select one image from gallery
+***get_data()***  
+Return a intent URL string.
 
-***getGalleryImages()***  
-Select multiple images from gallery
-
-***getCameraImage()***  
-Capture image from camera
-
-***resendPermission()***  
-If user has declined permission this needs to be called for a new permission is requested.
-
-***setOptions(*** *Dictionary with options* ***)***  
-If you would like a specific size of the images, it can set via this feature.  
-This will apply to all images until options are set again or ***setOptions(*** *{ }* ***)*** is called with an empty dictionary.
-
-*This will not make the image larger than the original, in which case the original size will be kept.*
-
-#### Available options:
-* *"image_height"* (Int): Sets maximum image height
-* *"image_width"* (Int): Sets maximum image width
-* *"keep_aspect"* (Bool): Keep aspect ratio or not
-* *"image_quality"* (Int 0-100): Sets image compression quality, default is 90. 100 is best quality with least compression.
-* *"image_format"* (String): Set the compression format returned by plugin (supported formats: *"jpg"* , *"png"*). Default "jpg".
-* *"auto_rotate_image"* (Bool): Plugin will try to set correct orientation of the image. This is not 100% but will mostly return a correct oriented camera image.
-* *"use_front_camera"* (Bool): Plugin will try to use front camera.
-
-**_NOTE:_** Remember to load correct format in your code: ***load_jpg_from_buffer()*** or ***load_png_from_buffer()***
-	
-```python
-e.g.
-dict = {
-	"image_height" : 1000,
-	"image_width" : 600,
-	"keep_aspect" : true,
-	"auto_rotate_image" : true
-}
-or
-dict = {
-	"image_quality" : 40,
-	"image_format" : "png"
-}
-```
-
-
-
-Emitted signals
+Signals
 ---------------
 
-***image_request_completed***  
-Returns a Dictionary with images as PoolByteArray
+***data_received(data: String)***  
+Emitted when application main activity start or resume.
 
-**_NOTE:_** If non supported image is selected this will return null value
+Constants
+-----------
 
-***permission_not_granted_by_user***   
-User declines Android permission request.  
-It's a good practice to explain why permission is important and then call resendPermission()
+***CUSTOM_MANIFEST_ACTIVITY_ELEMENT***  
+Custom intent element block can be added here.
 
-***error***  
-Returns any error as string
+***SINGLETON_NAME***  
+An name that applinks plugin will use when adding gdscript wrapper singleton
 
-# Donation
-If you like this plugin and really wish to make a donation. 
-Feel free to make a donation to [ The Children's Heart Fund](https://mitt.hjartebarnsfonden.se/14901 "Hjärtebarnsfonden").
+***PLUGIN_NAME***  
+JNISingleton name, this name should not be change unless you know what you are doing.
