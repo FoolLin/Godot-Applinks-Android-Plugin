@@ -1,4 +1,3 @@
-// TODO: Update to match your plugin's package name.
 package org.godotengine.applinks.plugin.android
 
 import org.godotengine.godot.Godot
@@ -12,8 +11,8 @@ class Applinks(godot: Godot): GodotPlugin(godot) {
 
     @UsedByGodot
     fun getData(): String? {
-        val url = GodotFragment.getCurrentIntent()?.dataString
-        GodotFragment.getCurrentIntent().data = null
+        val url = getActivity()?.intent?.dataString
+        getActivity()?.intent.data = null
         return url
     }
 }
